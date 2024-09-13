@@ -14,7 +14,7 @@
 </p>
 
 <h5 align="center">
-  Sponsored by&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://speakeasy.co/?utm_source=standardjs.com&utm_medium=sponsorship&utm_campaign=standard"><img src="https://speakeasy.co/logo-text.png" alt="Speakeasy" height=50 valign="middle"></a>
+  Sponsored by&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://socket.dev"><img src="https://cdn.rawgit.com/standard/standard/master/docs/logos/socket.png" alt="Socket – Supply Chain Dependency Security for JavaScript and npm" height=50 valign="middle"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wormhole.app/?utm_medium=sponsorship&utm_source=standard&utm_campaign=feross"><img src="https://cdn.rawgit.com/standard/standard/master/docs/logos/wormhole.png" alt="Wormhole" height=50 valign="middle"></a>
 </h5>
 
 <p align="center">
@@ -62,7 +62,7 @@ npm install standard
 - **E [mais benefícios][5]** – *dê uma chance para  `standard` hoje!*
 
 [1]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
-[2]: http://inimino.org/~inimino/blog/javascript_semicolons
+[2]: https://web.archive.org/web/20201206065632/http://inimino.org/~inimino/blog/javascript_semicolons
 [3]: https://www.youtube.com/watch?v=gsfbh17Ax9I
 [4]: RULES-ptbr.md#ponto-e-v%C3%ADrgula
 [5]: RULES-ptbr.md#javascript-standard-style
@@ -86,7 +86,7 @@ Para ter uma idéia melhor, dê uma olhada
   - [Existe um formatador automático?](#existe-um-formatador-autom%C3%A1tico)
   - [Como ignoro arquivos?](#como-ignoro-arquivos)
   - [Como escondo um determinado aviso?](#como-escondo-um-determinado-aviso)
-  - [Eu uso uma biblioteca que polui o namespace global. Como eu previno erros de "variable is not defined"?](#eu-uso-uma-biblioteca-que-polui-o-namespace-global-como-eu-previno-erros-de-variable-is-not-definedfunctions)
+  - [Eu uso uma biblioteca que polui o namespace global. Como eu previno erros de "variable is not defined"?](#eu-uso-uma-biblioteca-que-polui-o-namespace-global-como-eu-previno-erros-de-variable-is-not-defined)
   - [Posso usar um custom parser de JS novinho em folha que saiu ontem para suporte ao ES Next?](#posso-usar-um-custom-parser-de-js-novinho-em-folha-que-saiu-ontem-para-suporte-ao-es-next)
   - [Posso usar uma linguagem variante de JavaScript, tipo Flow?](#posso-usar-uma-linguagem-variante-de-javascript-tipo-flow)
   - [Você pode tornar regra X configurável?](#voc%C3%AA-pode-tornar-regra-x-configur%C3%A1vel)
@@ -98,7 +98,7 @@ Para ter uma idéia melhor, dê uma olhada
 - [Node.js API](#nodejs-api)
   - [`standard.lintText(text, [opts], callback)`](#standardlinttexttext-opts-callback)
   - [`standard.lintFiles(files, [opts], callback)`](#standardlintfilesfiles-opts-callback)
-- [Licensa](#licensa)
+- [Licença](#licen%C3%A7a)
 
 ## Instalação
 
@@ -326,14 +326,6 @@ Em casos raros, você vai precisar quebrar uma regra e esconder um warning gerad
 
 JavaScript Standard Style usa o [`eslint`](http://eslint.org/) por baixo dos panos, sendo assim, você pode esconder algum aviso da mesma forma que você faria se utilizasse `eslint` diretamente.
 
-Para receber output verboso (para que você descubra que regra em particular precisa ignorar), execute:
-
-```bash
-$ standard --verbose
-Error: Use JavaScript Standard Style
-  routes/error.js:20:36: 'file' was used before it was defined. (no-use-before-define)
-```
-
 Desabilite **todas as regras** em uma linha específica:
 
 ```js
@@ -486,7 +478,7 @@ npm install snazzy
 E rode:
 
 ```bash
-$ standard --verbose | snazzy
+$ standard | snazzy
 ```
 
 Há também [standard-tap](https://www.npmjs.com/package/standard-tap),
@@ -496,24 +488,32 @@ Há também [standard-tap](https://www.npmjs.com/package/standard-tap),
 
 ## Node.js API
 
-### `standard.lintText(text, [opts], callback)`
+### `async standard.lintText(text, [opts])`
 
 Aplica lint no código fornecido `text` para forçar JavaScript Standard Style. Um objeto `opts` pode ser fornecido:
 
 ```js
-var opts = {
-  fix: false,   // automaticamente corrige problemas
-  globals: [],  // declaração de variáveis globais
-  plugins: [],  // plugins eslint
-  envs: [],     // ambiente eslint
-  parser: ''    // js parser (e.g. @babel/eslint-parser)
+{
+  // unique to lintText
+  filename: '',         // path of file containing the text being linted
+
+  // common to lintText and lintFiles
+  cwd: '',              // current working directory (default: process.cwd())
+  fix: false,           // automatically fix problems
+  extensions: [],       // file extensions to lint (has sane defaults)
+  globals: [],          // custom global variables to declare
+  plugins: [],          // custom eslint plugins
+  envs: [],             // custom eslint environment
+  parser: '',           // custom js parser (e.g. babel-eslint)
+  usePackageJson: true, // use options from nearest package.json?
+  useGitIgnore: true    // use file ignore patterns from .gitignore?
 }
 ```
 
-O `callback` vai ser chamado com os objetos `Error` e `results`:
+Objetos `results`:
 
 ```js
-var results = {
+const results = {
   results: [
     {
       filePath: '',
@@ -521,7 +521,8 @@ var results = {
         { ruleId: '', message: '', line: 0, column: 0 }
       ],
       errorCount: 0,
-      warningCount: 0
+      warningCount: 0,
+      output: '' // fixed source code (only present with {fix: true} option)
     }
   ],
   errorCount: 0,
@@ -529,23 +530,27 @@ var results = {
 }
 ```
 
-### `standard.lintFiles(files, [opts], callback)`
+### `async standard.lintFiles(files, [opts])`
 
 Aplica lint nos globs `files`. Um objeto `opts` pode ser passado
 
 ```js
-var opts = {
-  ignore: [],   // globs de arquivo para ser ignorados (has sane defaults)
-  cwd: '',      // diretório atual de trabalho (default: process.cwd())
-  fix: false,   // corrige problemas automaticamente
-  globals: [],  // variáveis globais para declarar
-  plugins: [],  // plugins eslint
-  envs: [],     // ambiente eslint
-  parser: ''    // js parser (e.g. @babel/eslint-parser)
+{
+  // unique to lintFiles
+  ignore: [],           // file globs to ignore (has sane defaults)
+
+  // common to lintText and lintFiles
+  cwd: '',              // current working directory (default: process.cwd())
+  fix: false,           // automatically fix problems
+  extensions: [],       // file extensions to lint (has sane defaults)
+  globals: [],          // custom global variables to declare
+  plugins: [],          // custom eslint plugins
+  envs: [],             // custom eslint environment
+  parser: '',           // custom js parser (e.g. babel-eslint)
+  usePackageJson: true, // use options from nearest package.json?
+  useGitIgnore: true    // use file ignore patterns from .gitignore?
 }
 ```
-
-O `callback` vai ser chamado com os objetos `Error` e `results`:
 
 ## Contribuições
 
@@ -570,6 +575,6 @@ Há vários **[plugins de editores](#text-editor-plugins)**, uma lista de
 e uma awesome list de
 **[packages do ecossistema `standard` ](https://github.com/standard/awesome-standard)**.
 
-## License
+## Licença
 
 [MIT](LICENSE). Copyright (c) [Feross Aboukhadijeh](http://feross.org).

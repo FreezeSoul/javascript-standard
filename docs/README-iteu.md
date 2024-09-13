@@ -14,7 +14,7 @@
 </p>
 
 <h5 align="center">
-  Sponsored by&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://speakeasy.co/?utm_source=standardjs.com&utm_medium=sponsorship&utm_campaign=standard"><img src="https://speakeasy.co/logo-text.png" alt="Speakeasy" height=50 valign="middle"></a>
+  Sponsored by&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://socket.dev"><img src="https://cdn.rawgit.com/standard/standard/master/docs/logos/socket.png" alt="Socket – Supply Chain Dependency Security for JavaScript and npm" height=50 valign="middle"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wormhole.app/?utm_medium=sponsorship&utm_source=standard&utm_campaign=feross"><img src="https://cdn.rawgit.com/standard/standard/master/docs/logos/wormhole.png" alt="Wormhole" height=50 valign="middle"></a>
 </h5>
 
 <p align="center">
@@ -69,7 +69,7 @@ npm install standard --save-dev
 - **E [ancora di più][5]** *prova `standard`, oggi!*
 
 [1]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
-[2]: http://inimino.org/~inimino/blog/javascript_semicolons
+[2]: https://web.archive.org/web/20201206065632/http://inimino.org/~inimino/blog/javascript_semicolons
 [3]: https://www.youtube.com/watch?v=gsfbh17Ax9I
 [4]: RULES-iteu.md#semicolons
 [5]: RULES-iteu.md#javascript-standard-style
@@ -85,27 +85,28 @@ che usano `standard`!
 - Settaggio veloce
   - [Installazione](#installazione)
   - [Utilizzo](#utilizzo)
-  - [Cosa vorresti fare se sei intelligente](#cosa-vorresti-fare-sei-intelligente)
+  - [Cosa vorresti fare se sei intelligente](#cosa-vorresti-fare-se-sei-intelligente)
 - FAQ
-  - [Perchè dovrei usare JavaScript Standard Style?](#perche-dovrei-usare-javascript-standard-style)
+  - [Perchè dovrei usare JavaScript Standard Style?](#perchè-dovrei-usare-javascript-standard-style)
   - [Chi usa JavaScript Standard Style?](#chi-usa-javascript-standard-style)
   - [Ci sono dei plugin per gli editor di testo?](#ci-sono-dei-plugin-per-gli-editor-di-testo)
   - [Esiste un banner?](#esiste-un-banner)
   - [Non sono d'accordo con la regola X, posso cambiarla?](#non-sono-daccordo-con-la-regola-x-posso-cambiarla)
-  - [Ma questo non è un vero web standard!](#bma-questo-non-e-un-vero-web-standard)
+  - [Ma questo non è un vero web standard!](#ma-questo-non-è-un-vero-web-standard)
   - [Esiste un formattatore automatico?](#esiste-un-formattatore-automatico)
   - [Come posso ignorare dei file?](#come-posso-ignorare-dei-file)
+  - [Come posso nascondere un determinato avviso?](#come-posso-nascondere-un-determinato-avviso)
   - [Come posso nascondere un determinato warning?](#come-posso-nascondere-un-determinato-warning)
-  - [Utilizzo una libreria che inquina il namespace globale. Come posso prevenire errori del tipo "variable is not defined"?](#tilizzo-una-libreria-che-inquina-il-namespace-globale-come-posso-prevenire-errori-del-tipo-variable-is-not-defined)
-  - [Come posso usare funzionalità sperimentali di JavaScript (ES Next)?](#ome-posso-usare-funzionalita-sperimentali-di-javascript-es-next)
+  - [Utilizzo una libreria che inquina il namespace globale. Come posso prevenire errori del tipo "variable is not defined"?](#utilizzo-una-libreria-che-inquina-il-namespace-globale-come-posso-prevenire-errori-del-tipo-variable-is-not-defined)
+  - [Come posso usare funzionalità sperimentali di JavaScript (ES Next)?](#come-posso-usare-funzionalità-sperimentali-di-javascript-es-next)
   - [Posso usare varianti di JavaScript come Flow?](#posso-usare-varianti-di-javascript-come-flow)
   - [Riguardo Mocha, Jasmine, QUnit, ecc.?](#riguardo-mocha-jasmine-qunit-ecc)
   - [Riguardo Web Workers?](#riguardo-web-workers)
-  - [Posso controllare codice dentro file di tipo Markdown o HTML?](#osso-controllare-codice-dentro-file-di-tipo-markdown-o-html)
-  - [C'è un hook Git per `pre-commit`?](#ce-un-hook-git-per-pre-commit)
-  - [Come posso mostrare l'output del mio codice colorato e *carino*?](#ome-posso-mostrare-loutput-del-mio-codice-colorato-e-carino)
-  - [C'è un API per Node.js?](#ce-un-api-per-nodejs)
-  - [Come posso contribuire a `standard`?](#come-posso-contribuire-per-standard)
+  - [Posso controllare codice dentro file di tipo Markdown o HTML?](#posso-controllare-codice-dentro-file-di-tipo-markdown-o-html)
+  - [C'è un hook Git per `pre-commit`?](#cè-un-hook-git-per-pre-commit)
+  - [Come posso mostrare l'output del mio codice colorato e *carino*?](#come-posso-mostrare-loutput-del-mio-codice-colorato-e-carino)
+  - [C'è un API per Node.js?](#cè-un-api-per-nodejs)
+  - [Come posso contribuire a `standard`?](#come-posso-contribuire-a-standard)
 - [Licenza](#licenza)
 
 ## Installazione
@@ -160,6 +161,7 @@ $ standard "src/util/**/*.js" "test/**/*.js"
       "test": "standard && node my-tests.js"
     }
   }
+  ```
 
 2. Lo stile del tuo codice verrà controllato automaticamente quando esegui `npm test`
   ```bash
@@ -167,6 +169,7 @@ $ standard "src/util/**/*.js" "test/**/*.js"
   Error: Use JavaScript Standard Style
     lib/torrent.js:950:11: Expected '===' and instead saw '=='.
   ```
+
 3. Mai più suggerimenti riguardo lo stile del tuo codice durante le pull request!
 
 ## Perchè dovrei usare JavaScript Standard Style?
@@ -382,14 +385,6 @@ In rari casi, avarai la necessità di rompere le regole e nascondere l'avviso ge
 
 JavaScript Standard Style usa [ESLint](http://eslint.org/) al di sotto del suo engine e puoi nascondere gli avvisi come se lo facessi direttamente per ESLint.
 
-Per avere un output più verboso (e così avere accesso al nome della regola), esegui:
-
-```bash
-$ standard --verbose
-Error: Use JavaScript Standard Style
-  routes/error.js:20:36: 'file' was used before it was defined. (no-use-before-define)
-```
-
 Disabilita **tutte le regole** in una specifica riga:
 
 ```js
@@ -599,7 +594,7 @@ $ npm install snazzy
 Ed esegui:
 
 ```bash
-$ standard --verbose | snazzy
+$ standard | snazzy
 ```
 
 Ci sono anche [standard-tap](https://www.npmjs.com/package/standard-tap),
@@ -611,30 +606,34 @@ Ci sono anche [standard-tap](https://www.npmjs.com/package/standard-tap),
 
 Sì!
 
-### `standard.lintText(text, [opts], callback)`
+### `async standard.lintText(text, [opts])`
 
 Esegue il lint sul parametro passato come input `text`. Il parametro `opts` è un oggetto con le seguenti opzioni:
 
 ```js
 {
-  cwd: '',      // l'attuale cartella del tuo progetto (default: process.cwd())
-  filename: '', // percorso del file al quale verrà eseguito il lint (opzionale, visto che alcuni plugin ne hanno bisogno)
-  fix: false,   // corregge gli errori automaticamente
-  globals: [],  // particolari variabili globali da dichiarare
-  plugins: [],  // particolari plugin eslint
-  envs: [],     // particolari eslint environments
-  parser: ''    // particolari parser JavaScript (es. @babel/eslint-parser)
+  // unique to lintText
+  filename: '',         // path of file containing the text being linted
+
+  // common to lintText and lintFiles
+  cwd: '',              // current working directory (default: process.cwd())
+  fix: false,           // automatically fix problems
+  extensions: [],       // file extensions to lint (has sane defaults)
+  globals: [],          // custom global variables to declare
+  plugins: [],          // custom eslint plugins
+  envs: [],             // custom eslint environment
+  parser: '',           // custom js parser (e.g. babel-eslint)
+  usePackageJson: true, // use options from nearest package.json?
+  useGitIgnore: true    // use file ignore patterns from .gitignore?
 }
 ```
 
 Ulteriori opzioni possono essere caricate usando `package.json` se si trova all'interno della cartella del tuo progetto.
 
-Il parametro `callback` sarà chiamato con un `Error` ed un oggetto `results`.
-
 L'oggetto `results` conterrà se seguenti proprietà:
 
 ```js
-var results = {
+const results = {
   results: [
     {
       filePath: '',
@@ -643,7 +642,7 @@ var results = {
       ],
       errorCount: 0,
       warningCount: 0,
-      output: '' // codice sorgente fissato (accessibile solo con opzione {fix: true})
+      output: '' // fixed source code (only present with {fix: true} option)
     }
   ],
   errorCount: 0,
@@ -651,28 +650,29 @@ var results = {
 }
 ```
 
-### `results = standard.lintTextSync(text, [opts])`
-
-Versione sincrona di `standard.lintText()`. Se si verifica un errore, viene lanciata un'eccezione. Altrimenti viene ritornato l'oggetto `results`.
-
-### `standard.lintFiles(files, [opts], callback)`
+### `async standard.lintFiles(files, [opts])`
 
 Esegue il lint sui `files` glob. È possibile passare un oggetto `opts`:
 
 ```js
-var opts = {
-  ignore: [],   // file globs da ignorare (ha alcuni defaults)
-  cwd: '',      // l'attuale cartella del tuo progetto (default: process.cwd())
-  fix: false,   // corregge gli errori automaticamente
-  globals: [],  // particolari variabili globali da dichiarare
-  plugins: [],  // particolari plugin eslint
-  envs: [],     // particolari eslint environments
-  parser: ''    // particolari parser JavaScript (es. @babel/eslint-parser)
+{
+  // unique to lintFiles
+  ignore: [],           // file globs to ignore (has sane defaults)
+
+  // common to lintText and lintFiles
+  cwd: '',              // current working directory (default: process.cwd())
+  fix: false,           // automatically fix problems
+  extensions: [],       // file extensions to lint (has sane defaults)
+  globals: [],          // custom global variables to declare
+  plugins: [],          // custom eslint plugins
+  envs: [],             // custom eslint environment
+  parser: '',           // custom js parser (e.g. babel-eslint)
+  usePackageJson: true, // use options from nearest package.json?
+  useGitIgnore: true    // use file ignore patterns from .gitignore?
 }
 ```
 
-Il parametro `callback` sarà chiamato con un `Error` ed un oggetto `results`. (lo stesso di prima).
-
+Oggetto `results`. (lo stesso di prima).
 
 ## Come posso contribuire a `standard`?
 
